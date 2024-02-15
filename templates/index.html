@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+</head>
+
+<body>
+    <h1>Create Account</h1>
+    <form action="/create_account" method="post">
+        <label for="accNum">Account Number:</label>
+        <input type="text" name="accNum" required><br>
+
+        <label for="personName">Full Name:</label>
+        <input type="text" name="personName" required><br>
+
+        <label for="DoB">Date of Birth (DD-MM-YYYY):</label>
+        <input type="text" name="DoB" required><br>
+
+        <label for="contactNo">Contact Number:</label>
+        <input type="text" name="contactNo" required><br>
+
+        <label for="accType">Account Type (Savings/Current):</label>
+        <input type="text" name="accType" required><br>
+
+        <label for="username">Username:</label>
+        <input type="text" name="username" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" required><br>
+
+        <input type="submit" value="Create Account">
+    </form>
+</body>
+
+</html>
