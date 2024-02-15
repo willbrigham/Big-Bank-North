@@ -106,6 +106,6 @@ class Bank:
         print(f"Username: {username}")
 
 # Example usage:
-person1 = Person("John Doe", "01-01-2005", "1234567890")
+'''person1 = Person("Will Brigham", "12-05-2000", "1234567890")
 bank = Bank()
-bank.create_account("123", person1, "Savings", "john_doe", "secure_password")
+bank.create_account("123", person1, "Savings", "Will Brigham", "secure_password")'''

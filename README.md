@@ -4,6 +4,12 @@ Our team will be developing a secure web app to store customer current account a
 
 ## Usage
 
+Use the Following Script to Enter an Account 
+
+person1 = Person("Will Brigham", "12-05-2000", "1234567890")
+bank = Bank()
+bank.create_account("123", person1, "Savings", "Will Brigham", "secure_password")
+
 Will update for commands to run from terminal...
 Functionality will allow new customers to create accounts with a minimum balance of $500.
 Customers are able to withdraw and and deposit money, and there are overdraft/withdrawal limits to protect customers
