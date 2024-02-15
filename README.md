@@ -9,8 +9,6 @@ Functionality will allow new customers to create accounts with a minimum balance
 Customers are able to withdraw and and deposit money, and there are overdraft/withdrawal limits to protect customers
 Customers are able to view their updated balances in both accounts by entering their password
 
-REACH OUT TO TRISTAIN FROM VERIZON
-
 ## About the Team
 
 -  Will Brigham and Daneyra Mejia will be working on the app dev
