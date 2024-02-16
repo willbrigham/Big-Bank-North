@@ -1,16 +1,25 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import hashlib
+import pyodbc  
 from abc import ABC, abstractmethod
 from datetime import datetime
 
 app = Flask(__name__)
 
-# SQLite database initialization
-conn = sqlite3.connect('bank_database.db', check_same_thread=False)
-cursor = conn.cursor()
+#Azure db connection details
+server = 'bigbankserv.database.windows.net'  
+database = 'bigbankdata'  
+username = 'servadmin'  
+password = 'password123!'  
 
-# Create an SQLite database and a 'accounts' table
+conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password)  
+
+# SQLite database initialization
+#conn = sqlite3.connect('bank_database.db', check_same_thread=False)
+cursor = conn.cursor() 
+
+"""# Create an SQLite database and a 'accounts' table               no longer needed
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS accounts (
         accNum TEXT PRIMARY KEY,
@@ -24,19 +33,25 @@ cursor.execute('''
         birthdate TEXT
     )
 ''')
-conn.commit()
+conn.commit()"""
 
 class Person:
-    def __init__(self, personName, DoB, contactNo):
+    def __init__(self, personID, personName, DoB, phoneNumber, username, password, email):
+        self.personID = personID
         self.personName = personName
         self.DoB = datetime.strptime(DoB, "%d-%m-%Y").date()
-        self.contactNo = contactNo
+        self.phoneNumber = phoneNumber
+        self.username = username
+        self.password = password
+        self.email = email
+        
 
 class Account(ABC):
-    def __init__(self, accNum, balance, accHolder, accType, minBalance=500, overDraftLimit=0):
+    def __init__(self, accNum, balance, accHolderID, accHolderName, accType, minBalance=500, overDraftLimit=0):
         self.accNum = accNum
         self.balance = balance
-        self.accHolder = accHolder
+        self.accHolderID = accHolderID
+        self.accHolderName = accHolderName
         self.accType = accType
         self.minBalance = minBalance
         self.overDraftLimit = overDraftLimit
@@ -55,9 +70,9 @@ class Account(ABC):
     def save_to_database(self):
         birthdate_str = self.accHolder.DoB.strftime("%d-%m-%Y")
         cursor.execute('''
-            INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (self.accNum, self.balance, self.accHolder.personName, self.accHolder.contactNo,
-              self.accType, self.minBalance, self.overDraftLimit, self.accType, birthdate_str))
+            INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (self.accNum, self.balance, self.accHolderID, self.accHolderName, 
+            self.accType, self.minBalance, self.overDraftLimit, self.accType))
         conn.commit()
 
 class SavingsAcc(Account):
@@ -113,12 +128,12 @@ def create_account():
     accNum = request.form['accNum']
     personName = request.form['personName']
     DoB = request.form['DoB']
-    contactNo = request.form['contactNo']
+    phoneNumber = request.form['phoneNumber']
     accType = request.form['accType']
     username = request.form['username']
     password = request.form['password']
 
-    accHolder = Person(personName, DoB, contactNo)
+    accHolder = Person(personName, DoB, phoneNumber)
     bank = Bank()
     result = bank.create_account(accNum, accHolder, accType, username, password)
 
