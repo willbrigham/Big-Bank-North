@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
-import sqlite3
 import hashlib
 import pyodbc  
+import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime
 
@@ -15,35 +15,19 @@ password = 'password123!'
 
 conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password)  
 
-# SQLite database initialization
-#conn = sqlite3.connect('bank_database.db', check_same_thread=False)
 cursor = conn.cursor() 
-
-"""# Create an SQLite database and a 'accounts' table               no longer needed
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS accounts (
-        accNum TEXT PRIMARY KEY,
-        balance REAL,
-        accHolderName TEXT,
-        username TEXT,
-        password TEXT,
-        minBalance REAL,
-        overDraftLimit REAL,
-        accType TEXT,
-        birthdate TEXT
-    )
-''')
-conn.commit()"""
 
 class Person:
     def __init__(self, personID, personName, DoB, phoneNumber, username, password, email):
-        self.personID = personID
+        self.personID = str(uuid.uuid4())
         self.personName = personName
         self.DoB = datetime.strptime(DoB, "%d-%m-%Y").date()
         self.phoneNumber = phoneNumber
         self.username = username
         self.password = password
         self.email = email
+        
+    def 
         
 
 class Account(ABC):
