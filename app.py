@@ -68,7 +68,7 @@ class Account(ABC):
         return self.balance
 
     def save_to_database(self):
-        birthdate_str = self.accHolder.DoB.strftime("%d-%m-%Y")
+        #birthdate_str = self.accHolder.DoB.strftime("%d-%m-%Y")
         cursor.execute('''
             INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ''', (self.accNum, self.balance, self.accHolderID, self.accHolderName, 
